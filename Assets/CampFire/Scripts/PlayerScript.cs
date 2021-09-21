@@ -7,6 +7,7 @@ public class PlayerScript : MonoBehaviour
 {
     [Header("Player Stats")]
     [SerializeField] float WalkingSpeed = 5f;
+    [SerializeField] float RotSpeed = 5f;
     [Header("Other")]
     [SerializeField] Transform GroundCheck;
     [SerializeField] float GroundCheckRadius = .1f;
@@ -62,11 +63,23 @@ public class PlayerScript : MonoBehaviour
 
 
         characterController.Move(Velocity*Time.deltaTime);
+        UpdateRotation();
         Debug.Log(Velocity);
     }
 
     Vector3 GetPlayerDesiredMoveDir()
     {
         return new Vector3(-MoveInput.y, 0, MoveInput.x).normalized;
+    }
+
+    void UpdateRotation()
+    {
+        Vector3 PlayerDesiredDir = GetPlayerDesiredMoveDir();
+        if(PlayerDesiredDir.magnitude ==0)
+        {
+            PlayerDesiredDir = transform.forward;
+        }
+        Quaternion DesiredRotation = Quaternion.LookRotation(PlayerDesiredDir,Vector3.up);
+        transform.rotation = Quaternion.Lerp(transform.rotation,DesiredRotation,Time.deltaTime * RotSpeed);
     }
 }
