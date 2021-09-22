@@ -31,6 +31,7 @@ Transform:
   m_Children:
   - {fileID: 8451428826654004390}
   - {fileID: 2294979727968504895}
+  - {fileID: 6395768401847095917}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47,7 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WalkingSpeed: 5
+  RotSpeed: 5
   GroundCheck: {fileID: 2294979727968504895}
+  CheckIfNextGround: {fileID: 6395768401847095917}
   GroundCheckRadius: 0.1
   GroundLayerMask:
     serializedVersion: 2
@@ -70,6 +73,36 @@ CharacterController:
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.43, z: 0}
+--- !u!1 &3707249208259906247
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6395768401847095917}
+  m_Layer: 0
+  m_Name: CheckIfNextGround
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6395768401847095917
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3707249208259906247}
+  m_LocalRotation: {x: 0.5735764, y: 0, z: 0, w: 0.8191521}
+  m_LocalPosition: {x: 0, y: 0.35065678, z: 0.371}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4705329211462190810}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 70, y: 0, z: 0}
 --- !u!1 &5842540900440651312
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] float RotSpeed = 5f;
     [Header("Other")]
     [SerializeField] Transform GroundCheck;
+    [SerializeField] Transform CheckIfNextGround;
     [SerializeField] float GroundCheckRadius = .1f;
     [SerializeField] LayerMask GroundLayerMask;
 
@@ -60,10 +61,21 @@ public class PlayerScript : MonoBehaviour
         Velocity.z = GetPlayerDesiredMoveDir().z * WalkingSpeed;
         Velocity.y += gravity * Time.deltaTime;
 
+        RaycastHit hit;
+        if (Physics.Raycast(CheckIfNextGround.transform.position, CheckIfNextGround.transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, GroundLayerMask))
+        {
+            characterController.Move(Velocity * Time.deltaTime);
+            UpdateRotation();
+            Debug.DrawRay(CheckIfNextGround.transform.position, CheckIfNextGround.transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+        }
+        else
+        {
+            UpdateRotation();
+        }
 
 
-        characterController.Move(Velocity*Time.deltaTime);
-        UpdateRotation();
+        
+        
         Debug.Log(Velocity);
     }
 
