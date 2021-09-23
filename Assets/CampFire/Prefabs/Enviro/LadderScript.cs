@@ -32,4 +32,11 @@ public class LadderScript : MonoBehaviour
             otherAsPlayer.NotifyLadderExit(this);
         }
     }
+
+    public Transform GetClosestSnappingTransform(Vector3 Pos)
+    {
+        float DistanceToTop = Vector3.Distance(Pos, SnappingPointTop.position);
+        float DistanceToBottom = Vector3.Distance(Pos, SnappingPointBottom.position);
+        return DistanceToTop < DistanceToBottom ? SnappingPointTop : SnappingPointBottom;
+    }
 }

@@ -88,15 +88,23 @@ public class PlayerScript : MonoBehaviour
         MoveInput = ctx.ReadValue<Vector2>();
     }
 
+    void HopOnLadder(LadderScript ladderToHop)
+    {
+        if (ladderToHop == null) return;
+        if(ladderToHop != CurrentClimbingLadder)
+        {
+            Transform snapToTransform = ladderToHop.GetClosestSnappingTransform(transform.position);
+            characterController.Move(snapToTransform.position - transform.position);
+            transform.rotation = snapToTransform.rotation;
+            CurrentClimbingLadder = ladderToHop;
+            Debug.Log("HOP ON LADDER!");
+        }
+    }
     private void Update()
     {
         if(CurrentClimbingLadder==null)
         {
-            CurrentClimbingLadder = FindPlayerClimbingLadder();
-        }
-        if(CurrentClimbingLadder !=null)
-        {
-            Debug.Log("I WANT TO CLIMB BOI");
+            HopOnLadder(FindPlayerClimbingLadder());
         }
         if (IsOnGround())
         {
