@@ -32,6 +32,7 @@ public class PlayerScript : MonoBehaviour
         if(ladderExit == CurrentClimbingLadder)
         {
             CurrentClimbingLadder = null;
+            Velocity.y = 0f;
         }
         LaddersNearby.Remove(ladderExit);
     }
@@ -98,6 +99,7 @@ public class PlayerScript : MonoBehaviour
             transform.rotation = snapToTransform.rotation;
             CurrentClimbingLadder = ladderToHop;
             Debug.Log("HOP ON LADDER!");
+
         }
     }
     private void Update()
@@ -106,10 +108,45 @@ public class PlayerScript : MonoBehaviour
         {
             HopOnLadder(FindPlayerClimbingLadder());
         }
-        if (IsOnGround())
+        if(CurrentClimbingLadder)
         {
-            Velocity.y = -0.2f;
+            CalcuateClimbingVelocity();
         }
+        else
+        {
+            CalcuateWalkingVelocity();
+        }
+
+    }
+
+    void CalcuateClimbingVelocity()
+    {
+        if(MoveInput.magnitude ==0)
+        {
+            Velocity = Vector3.zero;
+            return;
+        }
+        Vector3 LadderDir = CurrentClimbingLadder.transform.forward;
+        Vector3 PlayerDesiredMoveDir =GetPlayerDesiredMoveDir();
+
+        float dot = Vector3.Dot(LadderDir, PlayerDesiredMoveDir);
+
+        if(dot <0)
+        {
+            Velocity = GetPlayerDesiredMoveDir() * WalkingSpeed;
+            Velocity.y = WalkingSpeed;
+        }
+        else
+        {
+            if(IsOnGround())
+            {
+                Velocity = GetPlayerDesiredMoveDir() * WalkingSpeed;
+            }
+            Velocity.y = -WalkingSpeed;
+        }
+    }
+    void CalcuateWalkingVelocity()
+    {
         Velocity.x = GetPlayerDesiredMoveDir().x * WalkingSpeed;
         Velocity.z = GetPlayerDesiredMoveDir().z * WalkingSpeed;
         Velocity.y += gravity * Time.deltaTime;
@@ -131,6 +168,10 @@ public class PlayerScript : MonoBehaviour
     {
         Vector3 PlayerDesiredDir = GetPlayerDesiredMoveDir();
         if(PlayerDesiredDir.magnitude ==0)
+        {
+            PlayerDesiredDir = transform.forward;
+        }
+        if(CurrentClimbingLadder != null)
         {
             PlayerDesiredDir = transform.forward;
         }
