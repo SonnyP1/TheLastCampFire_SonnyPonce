@@ -50,6 +50,7 @@ MonoBehaviour:
   WalkingSpeed: 5
   RotSpeed: 5
   GroundCheck: {fileID: 2294979727968504895}
+  LadderTimeToSnap: 0.2
   EdgeCheckTracingDepth: 1
   CheckIfNextGround: {fileID: 6395768401847095917}
   GroundCheckRadius: 0.1

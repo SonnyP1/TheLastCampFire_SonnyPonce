@@ -10,12 +10,14 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] float RotSpeed = 5f;
     [Header("Other")]
     [SerializeField] Transform GroundCheck;
+    [SerializeField] float LadderTimeToSnap = 1f;
     [SerializeField] float EdgeCheckTracingDepth = 1f;
     [SerializeField] Transform CheckIfNextGround;
     [SerializeField] float GroundCheckRadius = .1f;
     [SerializeField] LayerMask GroundLayerMask;
     [SerializeField] float LadderClimbCommitAngleDegrees = 20f;
 
+    IEnumerator GetOnLadderCoroutine;
     CharacterController characterController;
     PlayerInputs playerInputs;
     Vector2 MoveInput;
@@ -96,28 +98,27 @@ public class PlayerScript : MonoBehaviour
         if(ladderToHop != CurrentClimbingLadder)
         {
             Transform snapToTransform = ladderToHop.GetClosestSnappingTransform(transform.position);
-            Debug.Log("HOP ON LADDER!");
-            StartCoroutine(GetOnLadder(snapToTransform));
-            //characterController.Move(snapToTransform.position - transform.position);
-            //transform.rotation = snapToTransform.rotation;
-            //StartCoroutine(GetOnLadder(snapToTransform));
+            GetOnLadderCoroutine = GetOnLadder(snapToTransform);
+            Debug.Log("Start Coroutine!");
+            StartCoroutine(GetOnLadderCoroutine);
             CurrentClimbingLadder = ladderToHop;
         }
     }
 
     IEnumerator GetOnLadder(Transform transfromToSnap)
     {
-        while (true)
+        Vector3 startLoc = transform.position;
+        Vector3 endLoc = transfromToSnap.position;
+        Quaternion startRot = transform.rotation;
+        Quaternion endRot = transfromToSnap.rotation;
+        float currentTime = 0;
+        while (currentTime < LadderTimeToSnap)
         {
-            if (transfromToSnap.position != transform.position)
-            {
-                characterController.Move(transfromToSnap.position - transform.position);
-                if(transform.position == transfromToSnap.position)
-                {
-                    Debug.Log("STOP ALL COROUTINES");
-                    StopAllCoroutines();
-                }
-            }
+            currentTime += Time.deltaTime;
+            Vector3 deltaOffest = Vector3.Lerp(startLoc, endLoc, currentTime / LadderTimeToSnap) - transform.position;
+            characterController.Move(deltaOffest);
+
+            transform.rotation = Quaternion.Lerp(startRot, endRot, currentTime / LadderTimeToSnap);
             yield return new WaitForEndOfFrame();
         }
 
@@ -151,7 +152,6 @@ public class PlayerScript : MonoBehaviour
 
     void CalcuateClimbingVelocity()
     {
-
         Velocity = Vector3.zero;
         Velocity.y = MoveInput.y * WalkingSpeed;
         if (IsOnGround())
@@ -159,7 +159,6 @@ public class PlayerScript : MonoBehaviour
             UpdateRotation();
             Velocity = GetPlayerDesiredMoveDir() * WalkingSpeed;
         }
-        
     }
     void CalcuateWalkingVelocity()
     {
