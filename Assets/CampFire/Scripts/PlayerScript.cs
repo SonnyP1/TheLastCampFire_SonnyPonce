@@ -77,7 +77,7 @@ public class PlayerScript : MonoBehaviour
     {
         playerInputs.Disable();
     }
-
+    
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -92,15 +92,35 @@ public class PlayerScript : MonoBehaviour
     void HopOnLadder(LadderScript ladderToHop)
     {
         if (ladderToHop == null) return;
+
         if(ladderToHop != CurrentClimbingLadder)
         {
             Transform snapToTransform = ladderToHop.GetClosestSnappingTransform(transform.position);
-            characterController.Move(snapToTransform.position - transform.position);
-            transform.rotation = snapToTransform.rotation;
-            CurrentClimbingLadder = ladderToHop;
             Debug.Log("HOP ON LADDER!");
-
+            StartCoroutine(GetOnLadder(snapToTransform));
+            //characterController.Move(snapToTransform.position - transform.position);
+            //transform.rotation = snapToTransform.rotation;
+            //StartCoroutine(GetOnLadder(snapToTransform));
+            CurrentClimbingLadder = ladderToHop;
         }
+    }
+
+    IEnumerator GetOnLadder(Transform transfromToSnap)
+    {
+        while (true)
+        {
+            if (transfromToSnap.position != transform.position)
+            {
+                characterController.Move(transfromToSnap.position - transform.position);
+                if(transform.position == transfromToSnap.position)
+                {
+                    Debug.Log("STOP ALL COROUTINES");
+                    StopAllCoroutines();
+                }
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
     }
     private void Update()
     {
@@ -114,50 +134,43 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-            CalcuateWalkingVelocity();
+            RaycastHit hit;
+            if (Physics.Raycast(CheckIfNextGround.transform.position, CheckIfNextGround.transform.TransformDirection(Vector3.down), out hit, EdgeCheckTracingDepth, GroundLayerMask))
+            {
+                CalcuateWalkingVelocity();
+                Debug.DrawRay(CheckIfNextGround.transform.position, CheckIfNextGround.transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+            }
+            else
+            {
+                Velocity = new Vector3(0, 0, 0);
+            }
         }
-
+        characterController.Move(Velocity * Time.deltaTime);
+        UpdateRotation();
     }
 
     void CalcuateClimbingVelocity()
     {
-        if(MoveInput.magnitude ==0)
-        {
-            Velocity = Vector3.zero;
-            return;
-        }
-        Vector3 LadderDir = CurrentClimbingLadder.transform.forward;
-        Vector3 PlayerDesiredMoveDir =GetPlayerDesiredMoveDir();
 
-        float dot = Vector3.Dot(LadderDir, PlayerDesiredMoveDir);
-
-        if(dot <0)
+        Velocity = Vector3.zero;
+        Velocity.y = MoveInput.y * WalkingSpeed;
+        if (IsOnGround())
         {
+            UpdateRotation();
             Velocity = GetPlayerDesiredMoveDir() * WalkingSpeed;
-            Velocity.y = WalkingSpeed;
         }
-        else
-        {
-            if(IsOnGround())
-            {
-                Velocity = GetPlayerDesiredMoveDir() * WalkingSpeed;
-            }
-            Velocity.y = -WalkingSpeed;
-        }
+        
     }
     void CalcuateWalkingVelocity()
     {
+        if(IsOnGround())
+        {
+            Velocity.y = -0.2f;
+        }
         Velocity.x = GetPlayerDesiredMoveDir().x * WalkingSpeed;
         Velocity.z = GetPlayerDesiredMoveDir().z * WalkingSpeed;
         Velocity.y += gravity * Time.deltaTime;
-        UpdateRotation();
-
-        RaycastHit hit;
-        if (Physics.Raycast(CheckIfNextGround.transform.position, CheckIfNextGround.transform.TransformDirection(Vector3.down), out hit, EdgeCheckTracingDepth, GroundLayerMask))
-        {
-            characterController.Move(Velocity * Time.deltaTime);
-            Debug.DrawRay(CheckIfNextGround.transform.position, CheckIfNextGround.transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-        }
+       
     }
     Vector3 GetPlayerDesiredMoveDir()
     {
@@ -171,7 +184,7 @@ public class PlayerScript : MonoBehaviour
         {
             PlayerDesiredDir = transform.forward;
         }
-        if(CurrentClimbingLadder != null)
+        if(CurrentClimbingLadder != null && !IsOnGround())
         {
             PlayerDesiredDir = transform.forward;
         }
