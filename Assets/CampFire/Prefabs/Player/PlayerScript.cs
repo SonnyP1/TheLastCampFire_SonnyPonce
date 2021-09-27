@@ -152,8 +152,28 @@ public class PlayerScript : MonoBehaviour
 
     void CalcuateClimbingVelocity()
     {
+        Vector3 dir = (transform.position - CurrentClimbingLadder.transform.position).normalized;
+        print(dir);
         Velocity = Vector3.zero;
-        Velocity.y = MoveInput.y * WalkingSpeed;
+
+
+        //there a better
+        if (dir.x > 0)
+        {
+            if (dir.z < 0)
+                Velocity.y = MoveInput.y * WalkingSpeed;
+            else
+                Velocity.y = -MoveInput.x * WalkingSpeed;
+        }
+        else
+        {
+            if (dir.z > 0)
+                Velocity.y = -MoveInput.y * WalkingSpeed;
+            else
+                Velocity.y = MoveInput.x * WalkingSpeed;
+        }
+
+
         if (IsOnGround())
         {
             UpdateRotation();
