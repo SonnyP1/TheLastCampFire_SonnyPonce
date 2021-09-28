@@ -10,7 +10,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] float RotSpeed = 5f;
     [Header("Other")]
     [SerializeField] Transform GroundCheck;
-    [SerializeField] float LadderTimeToSnap = 1f;
+    [SerializeField] float MaxTimeToLerp = 1f;
     [SerializeField] float EdgeCheckTracingDepth = 1f;
     [SerializeField] Transform CheckIfNextGround;
     [SerializeField] float GroundCheckRadius = .1f;
@@ -85,6 +85,16 @@ public class PlayerScript : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         playerInputs.Gameplay.Move.performed += OnMoveInputUpdated;
         playerInputs.Gameplay.Move.canceled += OnMoveInputUpdated;
+        playerInputs.Gameplay.Interact.performed += OnInteractPressed;
+    }
+
+    void OnInteractPressed(InputAction.CallbackContext ctx)
+    {
+        InteractComponent interactComp = GetComponentInChildren<InteractComponent>();
+        if(interactComp!=null)
+        {
+            interactComp.Interact();
+        }
     }
     void OnMoveInputUpdated(InputAction.CallbackContext ctx)
     {
@@ -98,29 +108,33 @@ public class PlayerScript : MonoBehaviour
         if(ladderToHop != CurrentClimbingLadder)
         {
             Transform snapToTransform = ladderToHop.GetClosestSnappingTransform(transform.position);
-            GetOnLadderCoroutine = GetOnLadder(snapToTransform);
+            GetOnLadderCoroutine = LerpToTransform(snapToTransform);
             Debug.Log("Start Coroutine!");
             StartCoroutine(GetOnLadderCoroutine);
             CurrentClimbingLadder = ladderToHop;
         }
     }
 
-    IEnumerator GetOnLadder(Transform transfromToSnap)
+    IEnumerator LerpToTransform(Transform transfromToSnap)
     {
+        playerInputs.Gameplay.Move.Disable();
+
         Vector3 startLoc = transform.position;
         Vector3 endLoc = transfromToSnap.position;
         Quaternion startRot = transform.rotation;
         Quaternion endRot = transfromToSnap.rotation;
         float currentTime = 0;
-        while (currentTime < LadderTimeToSnap)
+        while (currentTime < MaxTimeToLerp)
         {
             currentTime += Time.deltaTime;
-            Vector3 deltaOffest = Vector3.Lerp(startLoc, endLoc, currentTime / LadderTimeToSnap) - transform.position;
-            characterController.Move(deltaOffest);
+            Vector3 deltaOffset = Vector3.Lerp(startLoc, endLoc, currentTime / MaxTimeToLerp) - transform.position;
+            characterController.Move(deltaOffset);
 
-            transform.rotation = Quaternion.Lerp(startRot, endRot, currentTime / LadderTimeToSnap);
+            transform.rotation = Quaternion.Lerp(startRot, endRot, currentTime / MaxTimeToLerp);
             yield return new WaitForEndOfFrame();
         }
+
+        playerInputs.Gameplay.Move.Enable();
 
     }
     private void Update()
@@ -152,32 +166,28 @@ public class PlayerScript : MonoBehaviour
 
     void CalcuateClimbingVelocity()
     {
-        Vector3 dir = (transform.position - CurrentClimbingLadder.transform.position).normalized;
-        print(dir);
-        Velocity = Vector3.zero;
-
-
-        //there a better
-        if (dir.x > 0)
+        if(MoveInput.magnitude == 0)
         {
-            if (dir.z < 0)
-                Velocity.y = MoveInput.y * WalkingSpeed;
-            else
-                Velocity.y = -MoveInput.x * WalkingSpeed;
+            Velocity = Vector3.zero;
+            return;
+        }
+
+        Vector3 LadderDir = CurrentClimbingLadder.transform.forward;
+        Vector3 PlayerDisiredMoveDir = GetPlayerDesiredMoveDir();
+        float Dot = Vector3.Dot(LadderDir, PlayerDisiredMoveDir);
+
+        if(Dot < 0)
+        {
+            Velocity.y = WalkingSpeed;
         }
         else
         {
-            if (dir.z > 0)
-                Velocity.y = -MoveInput.y * WalkingSpeed;
-            else
-                Velocity.y = MoveInput.x * WalkingSpeed;
-        }
-
-
-        if (IsOnGround())
-        {
-            UpdateRotation();
-            Velocity = GetPlayerDesiredMoveDir() * WalkingSpeed;
+            if(IsOnGround())
+            {
+                UpdateRotation();
+                Velocity = GetPlayerDesiredMoveDir() * WalkingSpeed;
+            }
+            Velocity.y = -WalkingSpeed;
         }
     }
     void CalcuateWalkingVelocity()
