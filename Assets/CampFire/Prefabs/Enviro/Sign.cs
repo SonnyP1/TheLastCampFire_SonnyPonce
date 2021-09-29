@@ -21,6 +21,11 @@ public class Sign : InteractableScript
         {
             return;
         }
+
+        if(dialogs.Length == currentDialogIndex)
+        {
+            return;
+        }
         currentDialogIndex = (currentDialogIndex + 1) % dialogs.Length;
         DialogText.text = dialogs[currentDialogIndex];
     }
@@ -60,21 +65,33 @@ public class Sign : InteractableScript
     }
     public override void Interact()
     {
-        Debug.Log(currentDialogIndex);
-        GoToNextDialog();
+        if (currentDialogIndex != dialogs.Length - 1)
+        {
+            GoToNextDialog();
+        }
+        else
+        {
+            StopPreviousTransitionCoroutineStartNewOne(0);
+        }
     }
 
+    void StopPreviousTransitionCoroutineStartNewOne(float newOpacity)
+    {
+        if (TransitionCoroutine != null)
+        {
+            StopCoroutine(TransitionCoroutine);
+            TransitionCoroutine = null;
+        }
+        TransitionCoroutine = StartCoroutine(TransitionOpacityTo(newOpacity));
+    }
     private void OnTriggerEnter(Collider other)
     {
+        currentDialogIndex = 0;
+        DialogText.text = dialogs[currentDialogIndex];
         InteractComponent interactComponent = other.GetComponent<InteractComponent>();
         if(interactComponent!=null)
         {
-            if(TransitionCoroutine != null)
-            {
-                StopCoroutine(TransitionCoroutine);
-                TransitionCoroutine = null;
-            }
-            TransitionCoroutine = StartCoroutine(TransitionOpacityTo(1));
+            StopPreviousTransitionCoroutineStartNewOne(1);
         }
     }
 
@@ -83,12 +100,7 @@ public class Sign : InteractableScript
         InteractComponent interactComponent = other.GetComponent<InteractComponent>();
         if (interactComponent != null)
         {
-            if (TransitionCoroutine != null)
-            {
-                StopCoroutine(TransitionCoroutine);
-                TransitionCoroutine = null;
-            }
-            TransitionCoroutine = StartCoroutine(TransitionOpacityTo(0));
+            StopPreviousTransitionCoroutineStartNewOne(0);
         }
     }
 }
