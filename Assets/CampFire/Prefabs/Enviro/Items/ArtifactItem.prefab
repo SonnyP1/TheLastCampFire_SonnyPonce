@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4340005895725319365}
   - component: {fileID: 3058482185628582526}
-  - component: {fileID: 4911189732684690061}
   - component: {fileID: 1640391824488900279}
+  - component: {fileID: 8703062299642029454}
   m_Layer: 0
-  m_Name: PickUpInteract
+  m_Name: ArtifactItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,18 +47,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0.09, z: 0}
---- !u!114 &4911189732684690061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6788857749611229891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fb7e5f6df3822d48a95f9f03eae61ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &1640391824488900279
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -75,6 +63,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8703062299642029454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6788857749611229891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c4393bf6c0ae74495e373ddcd11120, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  needOwner: 1
+  DropDownSlotSearchRadius: 0.2
 --- !u!1001 &1094954730469662798
 PrefabInstance:
   m_ObjectHideFlags: 0

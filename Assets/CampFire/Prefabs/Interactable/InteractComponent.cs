@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InteractComponent : MonoBehaviour
 {
-    [SerializeField] GameObject PickUpGameObject;
+
     List<InteractableScript> interactables = new List<InteractableScript>();
     private void OnTriggerEnter(Collider other)
     {
@@ -30,12 +30,13 @@ public class InteractComponent : MonoBehaviour
         }
     }
 
-    public void Interact()
+    public void Interact(GameObject newOwner = null)
     {
         InteractableScript closestInteractable = GetClosestInteractable();
         if(closestInteractable != null)
         {
-            closestInteractable.SetOwnerGameObject(PickUpGameObject);
+            if(closestInteractable.needOwner)
+                closestInteractable.SetOwnerGameObject(newOwner);
             closestInteractable.Interact();
         }
     }

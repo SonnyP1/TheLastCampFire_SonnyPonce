@@ -16,13 +16,14 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] float GroundCheckRadius = .1f;
     [SerializeField] LayerMask GroundLayerMask;
     [SerializeField] float LadderClimbCommitAngleDegrees = 20f;
+    [SerializeField] GameObject Owner;
 
     IEnumerator GetOnLadderCoroutine;
     CharacterController characterController;
     PlayerInputs playerInputs;
     Vector2 MoveInput;
     Vector3 Velocity;
-    const float gravity = -9.8f;
+    const float GRAVITY = -9.8f;
     LadderScript CurrentClimbingLadder;
     List<LadderScript> LaddersNearby = new List<LadderScript>();
     public void NotifyLadderNearby(LadderScript ladderNearby)
@@ -93,7 +94,7 @@ public class PlayerScript : MonoBehaviour
         InteractComponent interactComp = GetComponentInChildren<InteractComponent>();
         if(interactComp!=null)
         {
-            interactComp.Interact();
+            interactComp.Interact(Owner);
         }
     }
     void OnMoveInputUpdated(InputAction.CallbackContext ctx)
@@ -198,7 +199,7 @@ public class PlayerScript : MonoBehaviour
         }
         Velocity.x = GetPlayerDesiredMoveDir().x * WalkingSpeed;
         Velocity.z = GetPlayerDesiredMoveDir().z * WalkingSpeed;
-        Velocity.y += gravity * Time.deltaTime;
+        Velocity.y += GRAVITY * Time.deltaTime;
        
     }
     Vector3 GetPlayerDesiredMoveDir()

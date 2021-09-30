@@ -65,6 +65,7 @@ public class Sign : InteractableScript
     }
     public override void Interact()
     {
+        base.Interact();
         if (currentDialogIndex != dialogs.Length - 1)
         {
             GoToNextDialog();
