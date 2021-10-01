@@ -54,7 +54,7 @@ public class PlayerScript : MonoBehaviour
             LadderDir.Normalize();
             float Dot = Vector3.Dot(PlayerDesiredMoveDir, LadderDir);
             float AngleDegrees = Mathf.Acos(Dot) * Mathf.Rad2Deg;
-            if(AngleDegrees < LadderClimbCommitAngleDegrees && AngleDegrees < ClosestAngle)
+            if(AngleDegrees < LadderClimbCommitAngleDegrees && AngleDegrees < ClosestAngle && ladder.enabled == true)
             {
                 ChosenLadder = ladder;
                 ClosestAngle = AngleDegrees;
@@ -167,7 +167,8 @@ public class PlayerScript : MonoBehaviour
 
     void CalcuateClimbingVelocity()
     {
-        if(MoveInput.magnitude == 0)
+        Velocity = Vector3.zero;
+        if (MoveInput.magnitude == 0)
         {
             Velocity = Vector3.zero;
             return;

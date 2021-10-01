@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ArtifactSlotTrans: {fileID: 2049127651967557759}
+  platformToMove: {fileID: 0}
 --- !u!65 &9018475265419205034
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -120,7 +121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5693467288111899477, guid: 0d8bbc0d1157e8b4fb6347f20af70c4e, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7327233701142381782, guid: 0d8bbc0d1157e8b4fb6347f20af70c4e, type: 3}
       propertyPath: m_LocalScale.x

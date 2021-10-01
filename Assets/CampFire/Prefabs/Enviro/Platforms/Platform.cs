@@ -30,5 +30,9 @@ public class Platform : MonoBehaviour
             objectToMove.rotation = Quaternion.Lerp(objectToMove.rotation, Destination.rotation, startTime / MaxTime);
             yield return new WaitForEndOfFrame();
         }
+        MovingCoroutine = null;
     }
+
+
+    public Coroutine GetMovingCoroutine() { return MovingCoroutine; }
 }

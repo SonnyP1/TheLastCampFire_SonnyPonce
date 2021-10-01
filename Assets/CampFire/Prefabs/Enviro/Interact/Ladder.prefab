@@ -1,49 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1669996897017557202
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2451149358252837642}
-  - component: {fileID: 2600382341100650829}
-  m_Layer: 0
-  m_Name: Trigger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2451149358252837642
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1669996897017557202}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.099984, y: 0.167, z: -0.00039524}
-  m_LocalScale: {x: 0.8867344, y: 2.4063065, z: 1.0168523}
-  m_Children: []
-  m_Father: {fileID: 6003765045417557942}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2600382341100650829
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1669996897017557202}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.9426967, z: 1}
-  m_Center: {x: 0, y: -0.028653104, z: 0}
 --- !u!1 &2502690161859549981
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6003765045417557942}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &2508310251691703529
 GameObject:
@@ -86,7 +42,7 @@ GameObject:
   - component: {fileID: 1659495829412538903}
   - component: {fileID: 208005579539466823}
   - component: {fileID: 6712475592728410525}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4144219622108200438}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Fence Rail (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +169,8 @@ GameObject:
   - component: {fileID: 6003765045417557942}
   - component: {fileID: 8140970687079051082}
   - component: {fileID: 7454269498289945216}
-  m_Layer: 3
+  - component: {fileID: 755343606270297416}
+  m_Layer: 0
   m_Name: Ladder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,7 +190,6 @@ Transform:
   m_Children:
   - {fileID: 1505920269428114662}
   - {fileID: 4144219622108200438}
-  - {fileID: 2451149358252837642}
   - {fileID: 970488994376642740}
   - {fileID: 9089625472201657971}
   m_Father: {fileID: 0}
@@ -269,6 +225,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &755343606270297416
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5891710196372170381}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7535128, y: 2.1743135, z: 1}
+  m_Center: {x: 0.12650225, y: 0.03722334, z: 0}
 --- !u!1 &7623107680192721598
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +266,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6003765045417557942}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &7785733543087776821
 GameObject:
@@ -311,7 +280,7 @@ GameObject:
   - component: {fileID: 3820789406016346017}
   - component: {fileID: 8944289065679191024}
   - component: {fileID: 3776353662627006358}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -405,7 +374,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1505920269428114662}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Fence Rail (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

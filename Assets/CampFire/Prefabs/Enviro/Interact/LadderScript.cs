@@ -14,22 +14,28 @@ public class LadderScript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        //make character snap to ladder.
-        PlayerScript otherAsPlayer = other.GetComponent<PlayerScript>();
-        if(otherAsPlayer != null)
+        if (this.enabled == true)
         {
-            otherAsPlayer.NotifyLadderNearby(this);
+            //make character snap to ladder.
+            PlayerScript otherAsPlayer = other.GetComponent<PlayerScript>();
+            if (otherAsPlayer != null)
+            {
+                otherAsPlayer.NotifyLadderNearby(this);
+            }
+            //make character go up when holding W and down when holding S\
         }
-        //make character go up when holding W and down when holding S\
     }
 
     private void OnTriggerExit(Collider other)
     {
-        //make character unsnap to ladder
-        PlayerScript otherAsPlayer = other.GetComponent<PlayerScript>();
-        if (otherAsPlayer != null)
+        if (this.enabled == true)
         {
-            otherAsPlayer.NotifyLadderExit(this);
+            //make character unsnap to ladder
+            PlayerScript otherAsPlayer = other.GetComponent<PlayerScript>();
+            if (otherAsPlayer != null)
+            {
+                otherAsPlayer.NotifyLadderExit(this);
+            }
         }
     }
 

@@ -38,7 +38,8 @@ public class PickUpInteraction : InteractableScript
             gameObject.transform.position = GetOwnerGameObject().transform.position;
             gameObject.transform.rotation = GetOwnerGameObject().transform.rotation;
             gameObject.transform.parent = GetOwnerGameObject().transform;
+            isPickUp = true;
         }
-        isPickUp = true;
+
     }
 }

@@ -14,7 +14,7 @@ public class Artifact : PickUpInteraction
     public override void PickUpItem()
     {
         base.PickUpItem();
-        if(CurrentSlot)
+        if(CurrentSlot && isPickUp)
         {
             CurrentSlot.OnArtifactLeft();
             CurrentSlot = null;
