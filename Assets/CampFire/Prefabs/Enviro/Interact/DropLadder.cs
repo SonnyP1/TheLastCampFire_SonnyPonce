@@ -6,10 +6,9 @@ public class DropLadder : Switch
 {
     // Start is called before the first frame update
     [SerializeField] Platform LadderToMove;
-    LadderScript ladderScript;
+    [SerializeField] LadderScript ladderScript;
     void Start()
     {
-        ladderScript = GetComponent<LadderScript>();
         ladderScript.enabled = false;
     }
     public override void Interact()
@@ -18,10 +17,13 @@ public class DropLadder : Switch
     }
     public override void SwitchOn()
     {
+        Debug.Log("Switch On!");
         base.SwitchOn();
-        LadderToMove.MoveTo(LadderToMove.EndTrans);
-        StartCoroutine(WaitForLadderMovement());
-        ladderScript.enabled = true;
+        if (LadderToMove != null)
+        {
+            LadderToMove.MoveTo(true);
+            StartCoroutine(WaitForLadderMovement());
+        }
     }
     public override void SwitchOff()
     {
@@ -35,6 +37,7 @@ public class DropLadder : Switch
         {
             yield return new WaitForEndOfFrame();
         }
+        ladderScript.enabled = true;
         Destroy(LadderToMove);
     }
 }

@@ -10,6 +10,17 @@ public class Platform : MonoBehaviour
 
     public Transform StartTrans;
     public Transform EndTrans;
+
+    public void MoveTo(bool ToEnd)
+    {
+        if(ToEnd)
+        {
+            MoveTo(EndTrans);
+        }else
+        {
+            MoveTo(StartTrans);
+        }
+    }
     public void MoveTo(Transform Destination)
     {
         if (MovingCoroutine != null)
