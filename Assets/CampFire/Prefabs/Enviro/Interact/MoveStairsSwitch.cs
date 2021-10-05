@@ -6,7 +6,6 @@ public class MoveStairsSwitch : Switch
 {
     [SerializeField] Platform stairsToMove;
     GameObject playerOwner;
-    [SerializeField] bool isPlayerOnPlatform;
     public override void Interact()
     {
         playerOwner = GetOwnerGameObject().transform.parent.gameObject;
@@ -29,15 +28,9 @@ public class MoveStairsSwitch : Switch
     {
         while(stairsToMove.GetMovingCoroutine() != null)
         {
-            if (isPlayerOnPlatform)
-            {
-                playerOwner.GetComponent<CharacterController>().enabled = false;
-                playerOwner.transform.parent = stairsToMove.transform;
-            }
+            //maybe lock playermovement if I need too
             yield return new WaitForEndOfFrame();
         }
         Debug.Log("I GET HERE");
-        playerOwner.GetComponent<CharacterController>().enabled = true;
-        playerOwner.transform.parent = null;
     }
 }

@@ -26,6 +26,12 @@ public class PlayerScript : MonoBehaviour
     const float GRAVITY = -9.8f;
     LadderScript CurrentClimbingLadder;
     List<LadderScript> LaddersNearby = new List<LadderScript>();
+    Vector3 PreviousWorldPos;
+    Transform currentFloor;
+    Vector3 PreviousFloorLocalPos;
+    Quaternion PreviousWorldRot;
+    Quaternion PreviousFloorLocalRot;
+
     public void NotifyLadderNearby(LadderScript ladderNearby)
     {
         LaddersNearby.Add(ladderNearby);
@@ -62,6 +68,45 @@ public class PlayerScript : MonoBehaviour
 
         }
         return ChosenLadder;
+    }
+
+    void CheckFloor()
+    {
+        Collider[] cols = Physics.OverlapSphere(GroundCheck.position,GroundCheckRadius,GroundLayerMask);
+        if(cols.Length !=0)
+        {
+            if(currentFloor != cols[0].transform)
+            {
+                currentFloor = cols[0].transform;
+                SnapShotPositionAndRotation();
+            }
+        }
+    }
+    void SnapShotPositionAndRotation()
+    {
+        PreviousWorldPos = transform.position;
+        PreviousWorldRot = transform.rotation;
+        if(currentFloor != null)
+        {
+            PreviousFloorLocalPos = currentFloor.InverseTransformPoint(transform.position);
+            PreviousFloorLocalRot = Quaternion.Inverse(currentFloor.rotation)*transform.rotation;
+            //to add quaternion you QA * QB   --->>> QA + QB = WORLD ROT
+            //to sub quaternion you Inverse(QA) * QB ---->>> QA - QB = LOCAL ROT
+        }
+    }
+
+
+    void FollowFloor()
+    {
+        if(currentFloor)
+        {
+            Vector3 DeltaMove = currentFloor.TransformPoint(PreviousFloorLocalPos) - PreviousWorldPos;
+            Velocity += DeltaMove / Time.deltaTime;
+
+            Quaternion DestinationRot = currentFloor.rotation * PreviousFloorLocalRot;
+            Quaternion DeltaRot = Quaternion.Inverse(PreviousWorldRot) * DestinationRot;
+            transform.rotation = transform.rotation * DeltaRot;
+        }
     }
     bool IsOnGround()
     {
@@ -140,6 +185,7 @@ public class PlayerScript : MonoBehaviour
     }
     private void Update()
     {
+        CheckFloor();
         if(CurrentClimbingLadder==null)
         {
             HopOnLadder(FindPlayerClimbingLadder());
@@ -161,8 +207,10 @@ public class PlayerScript : MonoBehaviour
                 Velocity = new Vector3(0, 0, 0);
             }
         }
+        FollowFloor();
         characterController.Move(Velocity * Time.deltaTime);
         UpdateRotation();
+        SnapShotPositionAndRotation();
     }
 
     void CalcuateClimbingVelocity()

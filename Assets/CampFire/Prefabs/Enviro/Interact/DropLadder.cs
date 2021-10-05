@@ -35,10 +35,6 @@ public class DropLadder : Switch
         {
             yield return new WaitForEndOfFrame();
         }
-        
-
-
-
         Destroy(LadderToMove);
     }
 }
