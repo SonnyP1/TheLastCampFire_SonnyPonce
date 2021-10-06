@@ -76,7 +76,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerFollow: {fileID: 0}
   cineCam1: {fileID: 0}
---- !u!1 &2715905341725740516
+  playerFollowTransTimeCineCam1: 0
+--- !u!1 &3803492241004405624
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -84,45 +85,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6449452835827080545}
-  - component: {fileID: 6351249148385973438}
-  - component: {fileID: 7504638405338266734}
+  - component: {fileID: 8508624562761440938}
+  - component: {fileID: 9184791933864549740}
+  - component: {fileID: 1890996990409575453}
   m_Layer: 0
-  m_Name: VisualTeset
+  m_Name: TempVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6449452835827080545
+--- !u!4 &8508624562761440938
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2715905341725740516}
+  m_GameObject: {fileID: 3803492241004405624}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.63973, y: 0.63973, z: 0.63973}
+  m_LocalScale: {x: 0.71099, y: 0.71099, z: 0.71099}
   m_Children: []
   m_Father: {fileID: 4231137318516606296}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6351249148385973438
+--- !u!33 &9184791933864549740
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2715905341725740516}
+  m_GameObject: {fileID: 3803492241004405624}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &7504638405338266734
+--- !u!23 &1890996990409575453
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2715905341725740516}
+  m_GameObject: {fileID: 3803492241004405624}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -186,7 +187,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5574266388390818274}
-  - {fileID: 6449452835827080545}
+  - {fileID: 8508624562761440938}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

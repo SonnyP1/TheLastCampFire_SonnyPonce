@@ -35,8 +35,7 @@ public class InteractComponent : MonoBehaviour
         InteractableScript closestInteractable = GetClosestInteractable();
         if(closestInteractable != null)
         {
-            if(closestInteractable.needOwner)
-                closestInteractable.SetOwnerGameObject(newOwner);
+            closestInteractable.SetOwnerGameObject(newOwner);
             closestInteractable.Interact();
         }
     }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 public class InteractableScript : MonoBehaviour
 {
-    public bool needOwner = false;
     GameObject Owner;
     public virtual void Interact()
     {

@@ -28,17 +28,20 @@ public class Platform : MonoBehaviour
             StopCoroutine(MovingCoroutine);
             MovingCoroutine = null;
         }
+        Debug.Log("Move to is called");
         MovingCoroutine = StartCoroutine(MoveToTrans(Destination, TransitionTime));
     }
 
     IEnumerator MoveToTrans(Transform Destination,float MaxTime)
     {
         float startTime = 0f;
+
         while(startTime < MaxTime)
         {
             startTime += Time.deltaTime;
-            objectToMove.position = Vector3.Lerp(objectToMove.position,Destination.position,startTime/ MaxTime);
-            objectToMove.rotation = Quaternion.Lerp(objectToMove.rotation, Destination.rotation, startTime / MaxTime);
+            float percentOfStartMax = startTime / MaxTime;
+            objectToMove.position = Vector3.Lerp(objectToMove.position,Destination.position, percentOfStartMax);
+            objectToMove.rotation = Quaternion.Lerp(objectToMove.rotation, Destination.rotation, percentOfStartMax);
             yield return new WaitForEndOfFrame();
         }
         MovingCoroutine = null;
