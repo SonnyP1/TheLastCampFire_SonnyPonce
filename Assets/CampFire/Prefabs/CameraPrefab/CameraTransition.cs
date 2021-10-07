@@ -8,21 +8,29 @@ public class CameraTransition : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera playerFollow;
     [SerializeField] CinemachineVirtualCamera cineCam1;
     Vector2 OrginCameraPriority;
-    [SerializeField] float playerFollowTransTimeCineCam1;
+    [SerializeField] float startTranstionTime;
 
     private void Start()
     {
         OrginCameraPriority = new Vector2(playerFollow.Priority,cineCam1.Priority);
-        Camera.main.GetComponent<CinemachineBrain>().m_DefaultBlend.m_Time = playerFollowTransTimeCineCam1;
+        SetTransitionSpeed(startTranstionTime);
     }
     private void OnTriggerEnter(Collider other)
     {
-        SwitchCameraPriority(1);
+        if (other.tag == "Player")
+        {
+            SetTransitionSpeed(startTranstionTime);
+            SwitchCameraPriority(1);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        SwitchCameraPriority(0);
+        if (other.tag == "Player")
+        {
+            SwitchCameraPriority(0);
+            SetTransitionSpeed(startTranstionTime);
+        }
     }
 
     public void SwitchCameraPriority(int cameraToSwitch)

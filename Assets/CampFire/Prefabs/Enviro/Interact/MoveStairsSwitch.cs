@@ -3,12 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
+
 public class MoveStairsSwitch : Switch
 {
     [SerializeField] Platform stairsToMove;
     [SerializeField] CameraTransition cineMachineChange;
     [SerializeField] float playerCamToCineCamSpeed;
     [SerializeField] float cineCamToMainCamSpeed;
+
+    void Start()
+    {
+        stairsToMove.onMoveStatusChange += MoveStatusChanged;
+    }
+    void MoveStatusChanged(bool startedMovement)
+    {
+        if (startedMovement)
+        {
+            cineMachineChange.SetTransitionSpeed(playerCamToCineCamSpeed);
+            cineMachineChange.SwitchCameraPriority(1);
+        }
+        else
+        {
+            cineMachineChange.SetTransitionSpeed(cineCamToMainCamSpeed);
+            cineMachineChange.SwitchCameraPriority(0);
+        }
+    }
     public override void Interact()
     {
         base.Interact();
@@ -17,31 +36,10 @@ public class MoveStairsSwitch : Switch
     {
         base.SwitchOn();
         stairsToMove.MoveTo(true);
-        StartCoroutine(WaitForStairMovement());
     }
     public override void SwitchOff()
     {
         base.SwitchOff();
         stairsToMove.MoveTo(false);
-        StartCoroutine(WaitForStairMovement());
-    }
-
-    IEnumerator WaitForStairMovement()
-    {
-        while(stairsToMove.GetMovingCoroutine() != null)
-        {
-            if (cineMachineChange != null)
-            {
-                cineMachineChange.SetTransitionSpeed(playerCamToCineCamSpeed);
-                cineMachineChange.SwitchCameraPriority(1);
-            }
-            yield return new WaitForEndOfFrame();
-        }
-        if (cineMachineChange != null)
-        {
-            cineMachineChange.SetTransitionSpeed(cineCamToMainCamSpeed);
-            cineMachineChange.SwitchCameraPriority(0);
-        }
-        Debug.Log("Stairs stop moving");
     }
 }

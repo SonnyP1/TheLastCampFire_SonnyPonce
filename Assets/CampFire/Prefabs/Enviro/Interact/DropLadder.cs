@@ -7,9 +7,28 @@ public class DropLadder : Switch
     // Start is called before the first frame update
     [SerializeField] Platform LadderToMove;
     [SerializeField] LadderScript ladderScript;
+    [SerializeField] CameraTransition cineMachineChange;
+    [SerializeField] float playerCamToCineCamSpeed;
+    [SerializeField] float cineCamToMainCamSpeed;
     void Start()
     {
         ladderScript.enabled = false;
+        LadderToMove.onMoveStatusChange += MoveStatusChanged;
+    }
+
+    void MoveStatusChanged(bool startedMovement)
+    {
+        if (startedMovement)
+        {
+            cineMachineChange.SetTransitionSpeed(playerCamToCineCamSpeed);
+            cineMachineChange.SwitchCameraPriority(1);
+        }
+        else
+        {
+            ladderScript.enabled = true;
+            cineMachineChange.SetTransitionSpeed(cineCamToMainCamSpeed);
+            cineMachineChange.SwitchCameraPriority(0);
+        }
     }
     public override void Interact()
     {
@@ -22,7 +41,6 @@ public class DropLadder : Switch
         if (LadderToMove != null)
         {
             LadderToMove.MoveTo(true);
-            StartCoroutine(WaitForLadderMovement());
         }
     }
     public override void SwitchOff()
@@ -30,14 +48,4 @@ public class DropLadder : Switch
         return;
     }
 
-
-    IEnumerator WaitForLadderMovement()
-    {
-        while (LadderToMove.GetMovingCoroutine() != null)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-        ladderScript.enabled = true;
-        Destroy(LadderToMove);
-    }
 }
