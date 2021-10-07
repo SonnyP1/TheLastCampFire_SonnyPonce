@@ -5,17 +5,15 @@ using UnityEngine;
 public class ArifactSlot : MonoBehaviour
 {
     [SerializeField] Transform ArtifactSlotTrans;
-    [SerializeField] Platform platformToMove;
+    [SerializeField] GameObject ToggleObject;
     public void OnArtifactLeft()
     {
-        print("ArtifactLeft!");
-        platformToMove.MoveTo(platformToMove.StartTrans);
+        ToggleObject.GetComponent<Toggleable>().ToggleOff();
     }
 
     public void OnArtifactPlaced()
     {
-        print("ArtifactPlaced");
-        platformToMove.MoveTo(platformToMove.EndTrans);
+        ToggleObject.GetComponent<Toggleable>().ToggleOn();
     }
 
     public Transform GetSlotTransform()

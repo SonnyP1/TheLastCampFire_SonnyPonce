@@ -17,7 +17,7 @@ public class LadderScript : MonoBehaviour
         if (this.enabled == true)
         {
             //make character snap to ladder.
-            PlayerScript otherAsPlayer = other.GetComponent<PlayerScript>();
+            LadderMovement otherAsPlayer = other.GetComponent<LadderMovement>();
             if (otherAsPlayer != null)
             {
                 otherAsPlayer.NotifyLadderNearby(this);
@@ -31,7 +31,7 @@ public class LadderScript : MonoBehaviour
         if (this.enabled == true)
         {
             //make character unsnap to ladder
-            PlayerScript otherAsPlayer = other.GetComponent<PlayerScript>();
+            LadderMovement otherAsPlayer = other.GetComponent<LadderMovement>();
             if (otherAsPlayer != null)
             {
                 otherAsPlayer.NotifyLadderExit(this);

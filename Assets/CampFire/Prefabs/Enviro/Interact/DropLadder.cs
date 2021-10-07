@@ -36,7 +36,6 @@ public class DropLadder : Switch
     }
     public override void SwitchOn()
     {
-        Debug.Log("Switch On!");
         base.SwitchOn();
         if (LadderToMove != null)
         {

@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public delegate void OnMoveStatusChange(bool MovementStarted);
-
-public class Platform : MonoBehaviour
+public interface Toggleable
+{
+    void ToggleOn();
+    void ToggleOff();
+}
+public class Platform : MonoBehaviour, Toggleable
 {
     [SerializeField] Transform objectToMove;
     [SerializeField] float TransitionTime;
@@ -14,6 +18,14 @@ public class Platform : MonoBehaviour
     public Transform StartTrans;
     public Transform EndTrans;
 
+    public void ToggleOn()
+    {
+        MoveTo(true);
+    }
+    public void ToggleOff()
+    {
+        MoveTo(false);
+    }
     public void MoveTo(bool ToEnd)
     {
         if(ToEnd)
@@ -31,7 +43,6 @@ public class Platform : MonoBehaviour
             StopCoroutine(MovingCoroutine);
             MovingCoroutine = null;
         }
-        Debug.Log("Move to is called");
         MovingCoroutine = StartCoroutine(MoveToTrans(Destination, TransitionTime));
     }
 

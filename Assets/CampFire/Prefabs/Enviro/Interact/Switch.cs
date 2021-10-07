@@ -20,13 +20,11 @@ public class Switch : InteractableScript
 
     public virtual void SwitchOn()
     {
-        Debug.Log("SwitchOn");
         isSwitchOn = true;
     }
 
     public virtual void SwitchOff()
     {
-        Debug.Log("SwitchOff");
         isSwitchOn = false;
     }
 }
