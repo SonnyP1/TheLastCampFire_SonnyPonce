@@ -101,9 +101,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c21c82ddc84181419d86e574db549ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  needOwner: 1
   LadderToMove: {fileID: 4938459507270298238}
   ladderScript: {fileID: 3275754356632001806}
+  cineMachineChange: {fileID: 0}
+  playerCamToCineCamSpeed: 0
+  cineCamToMainCamSpeed: 0
+--- !u!114 &3674430648368998523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053103571740285248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbc014872568044e8059bad0bced5fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionTime: 2
 --- !u!114 &4938459507270298238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +213,18 @@ PrefabInstance:
     - target: {fileID: 6003765045417557942, guid: 915c97106ba0b8a408b680fa67586032, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6413049639239986995, guid: 915c97106ba0b8a408b680fa67586032, type: 3}
+      propertyPath: m_Size.y
+      value: 2.3211808
+      objectReference: {fileID: 0}
+    - target: {fileID: 6413049639239986995, guid: 915c97106ba0b8a408b680fa67586032, type: 3}
+      propertyPath: m_Center.y
+      value: 0.11065698
+      objectReference: {fileID: 0}
+    - target: {fileID: 6413049639239986995, guid: 915c97106ba0b8a408b680fa67586032, type: 3}
+      propertyPath: m_Center.z
+      value: -0.07722008
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 915c97106ba0b8a408b680fa67586032, type: 3}

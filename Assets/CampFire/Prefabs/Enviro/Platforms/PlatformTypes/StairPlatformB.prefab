@@ -40,6 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 134102461363001193}
   - component: {fileID: 5560156809447241297}
+  - component: {fileID: 2897057524109035967}
   m_Layer: 0
   m_Name: StairPlatformB
   m_TagString: Untagged
@@ -80,6 +81,19 @@ MonoBehaviour:
   TransitionTime: 2
   StartTrans: {fileID: 3407871611661238462}
   EndTrans: {fileID: 6396400035255103043}
+--- !u!114 &2897057524109035967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7029992531891170692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbc014872568044e8059bad0bced5fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionTime: 5
 --- !u!1 &7297302054296368259
 GameObject:
   m_ObjectHideFlags: 0

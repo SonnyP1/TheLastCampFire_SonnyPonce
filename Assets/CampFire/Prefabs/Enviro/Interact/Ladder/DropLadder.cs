@@ -13,22 +13,7 @@ public class DropLadder : Switch
     void Start()
     {
         ladderScript.enabled = false;
-        LadderToMove.onMoveStatusChange += MoveStatusChanged;
-    }
-
-    void MoveStatusChanged(bool startedMovement)
-    {
-        if (startedMovement)
-        {
-            cineMachineChange.SetTransitionSpeed(playerCamToCineCamSpeed);
-            cineMachineChange.SwitchCameraPriority(1);
-        }
-        else
-        {
-            ladderScript.enabled = true;
-            cineMachineChange.SetTransitionSpeed(cineCamToMainCamSpeed);
-            cineMachineChange.SwitchCameraPriority(0);
-        }
+        LadderToMove.SetCameraTransition(cineMachineChange);
     }
     public override void Interact()
     {
@@ -39,7 +24,9 @@ public class DropLadder : Switch
         base.SwitchOn();
         if (LadderToMove != null)
         {
-            LadderToMove.MoveTo(true);
+            LadderToMove.ToggleOn();
+            LadderToMove.CameraMovementSyncWithObjectMoving(playerCamToCineCamSpeed, cineCamToMainCamSpeed, ladderScript);
+
         }
     }
     public override void SwitchOff()

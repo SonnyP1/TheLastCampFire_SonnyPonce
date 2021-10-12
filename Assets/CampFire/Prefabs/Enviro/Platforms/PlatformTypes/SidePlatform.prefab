@@ -106,6 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 280355251715189780}
   - component: {fileID: 2314935242750116747}
+  - component: {fileID: 8646301863739124349}
   m_Layer: 0
   m_Name: SidePlatform
   m_TagString: Untagged
@@ -146,6 +147,19 @@ MonoBehaviour:
   TransitionTime: 2
   StartTrans: {fileID: 5458136569667349718}
   EndTrans: {fileID: 1481653997064023648}
+--- !u!114 &8646301863739124349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6613950580318026414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbc014872568044e8059bad0bced5fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionTime: 5
 --- !u!1 &9184450271134640886
 GameObject:
   m_ObjectHideFlags: 0

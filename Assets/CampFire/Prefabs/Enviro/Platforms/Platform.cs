@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void OnMoveStatusChange(bool MovementStarted);
+
 public interface Toggleable
 {
     void ToggleOn();
@@ -12,57 +12,58 @@ public class Platform : MonoBehaviour, Toggleable
 {
     [SerializeField] Transform objectToMove;
     [SerializeField] float TransitionTime;
-    Coroutine MovingCoroutine;
-    public OnMoveStatusChange onMoveStatusChange;
-
-    public Transform StartTrans;
-    public Transform EndTrans;
-
+    [SerializeField] Transform StartTrans;
+    [SerializeField] Transform EndTrans;
+    PlatformMovementComp platformMovementComp;
+    CameraTransition cineMachineChange;
+    public void SetCameraTransition(CameraTransition newCameraTrans) { cineMachineChange = newCameraTrans; }
+    private void Start()
+    {
+        platformMovementComp = GetComponent<PlatformMovementComp>();
+        platformMovementComp.SetObjectToMove(objectToMove);
+        platformMovementComp.SetStartEndTrans(StartTrans, EndTrans);
+    }
     public void ToggleOn()
     {
-        MoveTo(true);
+        Debug.Log("Toggle On");
+        platformMovementComp.MoveTo(true);
     }
     public void ToggleOff()
     {
-        MoveTo(false);
-    }
-    public void MoveTo(bool ToEnd)
-    {
-        if(ToEnd)
-        {
-            MoveTo(EndTrans);
-        }else
-        {
-            MoveTo(StartTrans);
-        }
-    }
-    public void MoveTo(Transform Destination)
-    {
-        if (MovingCoroutine != null)
-        {
-            StopCoroutine(MovingCoroutine);
-            MovingCoroutine = null;
-        }
-        MovingCoroutine = StartCoroutine(MoveToTrans(Destination, TransitionTime));
+        platformMovementComp.MoveTo(false);
     }
 
-    IEnumerator MoveToTrans(Transform Destination,float MaxTime)
+    public void CameraMovementSyncWithObjectMoving(float camSpeed1,float camSpeed2)
     {
-        float startTime = 0f;
-        Vector3 startPos = objectToMove.position;
-        Quaternion startRot = objectToMove.rotation;
-
-        if (onMoveStatusChange != null)
-            onMoveStatusChange.Invoke(true);
-        while(startTime < MaxTime)
+        if (cineMachineChange != null)
         {
-            startTime += Time.deltaTime;
-            float percentOfStartMax = startTime / MaxTime;
-            objectToMove.position = Vector3.Lerp(startPos, Destination.position, percentOfStartMax);
-            objectToMove.rotation = Quaternion.Lerp(startRot, Destination.rotation, percentOfStartMax);
-            yield return new WaitForEndOfFrame();
+            StartCoroutine(WaitForPlatformMovement(camSpeed1, camSpeed2));
         }
-        if(onMoveStatusChange != null)
-            onMoveStatusChange.Invoke(false);
     }
+    public void CameraMovementSyncWithObjectMoving(float camSpeed1, float camSpeed2,MonoBehaviour ClassToReenabled)
+    {
+        if (cineMachineChange != null)
+        {
+            StartCoroutine(WaitForPlatformMovement(camSpeed1, camSpeed2,ClassToReenabled));
+        }
+    }
+    IEnumerator WaitForPlatformMovement(float camSpeed1, float camSpeed2,MonoBehaviour ClassToReenabled = null)
+    {
+        cineMachineChange.SetTransitionSpeed(camSpeed1);
+        cineMachineChange.SwitchCameraPriority(1);
+        while (platformMovementComp.GetMovingCoroutine() != null)
+        {
+
+            yield return new WaitForFixedUpdate();
+        }
+        cineMachineChange.SwitchCameraPriority(0);
+        cineMachineChange.SetTransitionSpeed(camSpeed2);
+        if(ClassToReenabled != null)
+        {
+            Debug.Log(ClassToReenabled.name);
+            ClassToReenabled.enabled = true;
+        }
+    }
+
+
 }

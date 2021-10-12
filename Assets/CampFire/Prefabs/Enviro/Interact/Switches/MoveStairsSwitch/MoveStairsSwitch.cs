@@ -13,21 +13,9 @@ public class MoveStairsSwitch : Switch
 
     void Start()
     {
-        stairsToMove.onMoveStatusChange += MoveStatusChanged;
+        stairsToMove.SetCameraTransition(cineMachineChange);
     }
-    void MoveStatusChanged(bool startedMovement)
-    {
-        if (startedMovement)
-        {
-            cineMachineChange.SetTransitionSpeed(playerCamToCineCamSpeed);
-            cineMachineChange.SwitchCameraPriority(1);
-        }
-        else
-        {
-            cineMachineChange.SetTransitionSpeed(cineCamToMainCamSpeed);
-            cineMachineChange.SwitchCameraPriority(0);
-        }
-    }
+
     public override void Interact()
     {
         base.Interact();
@@ -35,11 +23,15 @@ public class MoveStairsSwitch : Switch
     public override void SwitchOn()
     {
         base.SwitchOn();
-        stairsToMove.MoveTo(true);
+        stairsToMove.ToggleOn();
+        stairsToMove.CameraMovementSyncWithObjectMoving(playerCamToCineCamSpeed, cineCamToMainCamSpeed);
     }
     public override void SwitchOff()
     {
         base.SwitchOff();
-        stairsToMove.MoveTo(false);
+        stairsToMove.ToggleOff();
+        stairsToMove.CameraMovementSyncWithObjectMoving(playerCamToCineCamSpeed, cineCamToMainCamSpeed);
     }
+
+
 }
